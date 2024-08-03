@@ -39,33 +39,54 @@
 					<div class="card shadow-sm mt-2">
 						<div class="card-body">
 
+							<div th:if="${message}" th:classappend="${message.type}"
+								class="alert" role="alert">
+								<p class="text-center" th:text="${message.content}"></p>
+							</div>
+
+
 							<div class="text-center">
-								<img style="width: 80px;"
-									th:src="@{/img/register.png}">
+								<img style="width: 80px;" th:src="@{/img/register.png}">
 							</div>
 							<h3 class="card-title text-center mb-4">REGISTER</h3>
-							<form>
+							<form novalidate th:action="@{/do_register}" method="post"
+								th:object="${user}">
 								<div class="mb-3">
 									<label for="name_field" class="form-label">Full Name</label> <input
 										type="text" class="form-control" id="name_field"
-										placeholder="Enter Here" required>
+										placeholder="Enter Here" required th:value="${user.name}"
+										name="name"
+										th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}">
+
+
+									<div th:each="e:${#fields.errors('name')}" th:text="${e}" class="invalid-feedback"></div>
 								</div>
 								<div class="mb-3">
 									<label for="email_field" class="form-label">Email
 										address</label> <input type="email" class="form-control"
-										id="email_field" placeholder="Enter email" required>
+										id="email_field" placeholder="Enter email" required
+										th:value="${user.email}" name="email">
 								</div>
 								<div class="mb-3">
 									<label for="password_field" class="form-label">Password</label>
 									<input type="password" class="form-control" id="password_field"
-										placeholder="Enter password" required>
+										placeholder="Enter password" required name="password">
 								</div>
 
 
 
 								<div class="form-group">
-									<textarea placeholder="Write Something About Yourself"
-										rows="5" class="form-control"></textarea>
+									<textarea th:value="${user.about}"
+										placeholder="Write Something About Yourself" rows="5"
+										class="form-control" name="about"></textarea>
+								</div>
+
+								<div class="form-group form-check text-center">
+
+									<input type="checkbox" name="agreement"
+										class="form-check-input" id="agreement" /> <label
+										for="agreement">Accept Terms and Conditions</label>
+
 								</div>
 
 								<div class="container text-center">

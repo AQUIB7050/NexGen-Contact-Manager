@@ -10,14 +10,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private String id;
+	private int id;
 	
+	@Size(min=3,max=20, message="The name should be in between 3-20 characters!")
 	private String name;
 	
 	@Column(unique = true)
@@ -37,11 +39,11 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
 	List<Contact> contacts = new ArrayList<>();
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -108,6 +110,15 @@ public class User {
 	public void setContacts(List<Contact> contacts) {
 		this.contacts = contacts;
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
+				+ ", enabled=" + enabled + ", imageUrl=" + imageUrl + ", about=" + about + ", contacts=" + contacts
+				+ "]";
+	}
+	
+	
 	
 	
 
