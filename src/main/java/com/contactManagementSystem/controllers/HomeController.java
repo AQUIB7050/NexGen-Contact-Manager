@@ -89,5 +89,17 @@ public class HomeController {
 		
 		
 	}
+	
+	@GetMapping("/signin")
+	public String customLogin(Model model) {
+		model.addAttribute("title", "login - Smart Contact Manager");
+		return "login";
+	}
+	
+	@GetMapping("/login_fail")
+	public String loginFail(Model model) {
+		model.addAttribute("title", "login - fail");
+		return "login_fail";
+	}
 
 }

@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="normal/base::layout(~{::section})">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 
-	<h1>Hi You have succesfully signed in</h1>
+
+	<section>
+		<p>Hi this is your dashboard</p>
+	</section>
 
 </body>
 </html>

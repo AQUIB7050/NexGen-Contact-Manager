@@ -13,8 +13,7 @@ body {
 	color: white;
 }
 
-.signupPage {
-	.card { border-radius:10px;
+.signupPage { .card { border-radius:10px;
 	
 }
 
@@ -38,5 +37,73 @@ a {
 
 a:hover {
 	text-decoration: underline;
+}
+
+}
+.loginPage { .login-card { background:#ffffff;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-card h3 {
+	font-size: 24px;
+	color: #333;
+}
+
+.login-card .form-control {
+	border-radius: 8px;
+	border: 1px solid #ddd;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.login-card .btn-primary {
+	background: #0072ff;
+	border: none;
+	border-radius: 8px;
+	padding: 10px;
+	font-size: 16px;
+}
+
+.login-card .btn-primary:hover {
+	background: #0056b3;
+}
+
+.login-card a {
+	color: #0072ff;
+}
+
+.login-card a:hover {
+	text-decoration: underline;
+}
+
+}
+.loginFail { .error-card { background:rgba(0, 0, 0, 0.7);
+	padding: 30px;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.error-card h1 {
+	font-size: 6rem;
+	margin-bottom: 20px;
+	color:white;
+}
+
+.error-card p {
+	font-size: 1.25rem;
+	margin-bottom: 30px;
+	color:white;
+}
+
+.btn-primary {
+	background-color: #ff6f61;
+	border: none;
+	padding: 10px 20px;
+	font-size: 1rem;
+	border-radius: 5px;
+}
+
+.btn-primary:hover {
+	background-color: #d53f8c;
 }
 }

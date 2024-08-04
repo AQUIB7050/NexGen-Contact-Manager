@@ -56,7 +56,7 @@ public class MyConfig {
 				request -> {
 					try {
 						request.requestMatchers("/admin/**").hasRole("ADMIN").requestMatchers("/user/**")
-								.hasRole("USER").requestMatchers("/**").permitAll().and().formLogin().and().csrf().disable();
+								.hasRole("USER").requestMatchers("/**").permitAll().and().formLogin().loginPage("/signin").loginProcessingUrl("/dologin").defaultSuccessUrl("/user/index").failureUrl("/login_fail").and().csrf().disable();
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
