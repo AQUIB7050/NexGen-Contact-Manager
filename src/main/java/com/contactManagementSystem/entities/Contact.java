@@ -24,6 +24,8 @@ public class Contact {
 	
 	private String phone;
 	
+	private String image;
+	
 	@Column(length=1000)
 	private String description;
 	
@@ -94,6 +96,15 @@ public class Contact {
 		this.user = user;
 	}
 	
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+		
 	
 
 }

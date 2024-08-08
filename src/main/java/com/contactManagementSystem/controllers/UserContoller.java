@@ -1,17 +1,27 @@
 package com.contactManagementSystem.controllers;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.contactManagementSystem.dao.UserRepository;
 import com.contactManagementSystem.entities.Contact;
 import com.contactManagementSystem.entities.User;
+import com.contactManagementSystem.helper.Message;
 
 @Controller
 @RequestMapping("/user")
@@ -47,6 +57,46 @@ public class UserContoller {
 		model.addAttribute("contact", new Contact());
 		
 		return "normal/add_contact";
+	}
+	
+	@PostMapping("/process-contact")
+	public String processContact(@ModelAttribute Contact contact,@RequestParam("profileImage") MultipartFile file, Principal principal, Model model) {
+		
+		try {
+			String email = principal.getName();
+			User user = this.userRepository.getUserByUserName(email);
+			
+			
+			//processing and updating file
+			if(file.isEmpty()) {
+				
+				System.out.println("File is empty");
+				
+			} else {
+				//upload the file to folder, then update the name in contact
+				contact.setImage(file.getOriginalFilename());
+				
+				File saveFile = new ClassPathResource("static/img").getFile();
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+			}
+			
+			
+			contact.setUser(user);
+			user.getContacts().add(contact);
+			this.userRepository.save(user);
+			
+			model.addAttribute("message", new Message("contact has been successfully added", "success"));
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("message", new Message("something went wrong! try again", "danger"));
+		}
+		
+		
+		
+		return "normal/user_dashboard";
 	}
 
 }
