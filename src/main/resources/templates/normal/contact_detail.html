@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org"
+	th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+	<section>
+		<div class="card">
+
+			<div class="card-body">
+
+				<div class="text-center">
+					<img th:src="@{'/img/' + ${contact.image}}"
+						style="width: 200px; height: 200px;" class="profile_image">
+
+					<h3 class="mt-2">
+						<span th:text="${contact.name}"></span> (<span
+							th:text="${contact.secondName}"></span>)
+					</h3>
+				</div>
+
+				<table class="table text-center">
+					<thead>
+						<tr>
+							<th scope="col">#ID</th>
+							<th scope="col" th:text=" 'CN2024' + ${contact.cId}"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td scope="col">Work</td>
+							<td scope="col" th:text="${contact.work}"></td>
+						</tr>
+						
+						<tr>
+							<td scope="col">Email</td>
+							<td scope="col" th:text="${contact.email}"></td>
+						</tr>
+						
+						<tr>
+							<td scope="col">Phone</td>
+							<td scope="col" th:text="${contact.phone}"></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<div class="text-center mb-4 mt-4">
+				<span  th:utext="${contact.description}"></span>
+				
+				</div>
+
+				<button type="button" class="btn btn-danger btn-sm btn-block">Delete</button>
+				<button type="button" class="btn btn-primary btn-sm btn-block">Update</button>
+
+			</div>
+
+		</div>
+	</section>
+
+</body>
+</html>

@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -77,6 +78,7 @@ public class UserContoller {
 			if (file.isEmpty()) {
 
 				System.out.println("File is empty");
+				contact.setImage("default_contact.png");
 
 			} else {
 				// upload the file to folder, then update the name in contact
@@ -109,7 +111,7 @@ public class UserContoller {
 			String email = principal.getName();
 			User user = this.userRepository.getUserByUserName(email);
 			
-			PageRequest pageable = PageRequest.of(page, 1);
+			PageRequest pageable = PageRequest.of(page, 3);
 			
 			Page<Contact> contacts = this.contactRepository.findContactByUser(user.getId(), pageable);
 			
@@ -125,6 +127,19 @@ public class UserContoller {
 		
 		
 		return "normal/show_contacts";
+	}
+	
+	@GetMapping("/{contactId}/contact")
+	public String getContactDetails(@PathVariable("contactId") int contactId, Model model) {
+		
+		Optional<Contact> optionalContact = this.contactRepository.findById(contactId);
+		Contact contact = optionalContact.get();
+		
+		model.addAttribute("title",contact.getName() + " - Smart Contact Manager");
+		model.addAttribute("contact", contact);
+		
+		return "normal/contact_detail";
+		
 	}
 
 }

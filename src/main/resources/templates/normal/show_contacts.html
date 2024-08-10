@@ -29,8 +29,19 @@
 					<tbody>
 						<tr th:each="e : ${contact}">
 							<th th:text=" 'CN2024' + ${e.cId}" scope="row"></th>
-							<td th:text="${e.name}"></td>
-							<td th:text="${e.email}"></td>
+							<td>
+							
+							<img class="profile_image mr-1" th:src="@{'/img/' + ${e.image}}">
+							
+							<span th:text="${e.name}"></span>
+							
+							</td>
+							<td>
+							<a th:href="@{'/user/'+ ${e.cId} +'/contact'}">
+							 <span th:text="${e.email}"> 
+							 </span>
+							 </a>
+							 </td>
 							<td th:text="${e.phone}"></td>
 							<td>
 
@@ -44,9 +55,17 @@
 
 				<nav aria-label="Page navigation example">
 					<ul class="pagination">
-						<li th:if="${currentPage > 0}" class="page-item"><a class="page-link" th:href="@{'/user/show-contacts/' + ${currentPage-1}}">Previous</a></li>
-						<li th:classappend="${e-1 == currentPage ? 'active' : ''}" th:each="e : ${#numbers.sequence(1, totalPages)}" class="page-item"><a class="page-link" th:href="@{'/user/show-contacts/' + ${e-1}}"><span th:text="${e}"></span></a></li>
-						<li th:if="${currentPage < totalPages-1}" class="page-item"><a class="page-link" th:href="@{'/user/show-contacts/' + ${currentPage + 1}}">Next</a></li>
+						<li th:if="${currentPage > 0}" class="page-item"><a
+							class="page-link"
+							th:href="@{'/user/show-contacts/' + ${currentPage-1}}">Previous</a></li>
+						<li th:classappend="${e-1 == currentPage ? 'active' : ''}"
+							th:each="e : ${#numbers.sequence(1, totalPages)}"
+							class="page-item"><a class="page-link"
+							th:href="@{'/user/show-contacts/' + ${e-1}}"><span
+								th:text="${e}"></span></a></li>
+						<li th:if="${currentPage < totalPages-1}" class="page-item"><a
+							class="page-link"
+							th:href="@{'/user/show-contacts/' + ${currentPage + 1}}">Next</a></li>
 					</ul>
 				</nav>
 			</div>
