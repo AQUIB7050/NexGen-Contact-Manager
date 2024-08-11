@@ -45,7 +45,7 @@
 							<td th:text="${e.phone}"></td>
 							<td>
 
-								<button type="button" class="btn btn-danger btn-sm">Delete</button>
+								<a th:onClick="|deleteContact(${e.cId}, ${currentPage})|" href="#" type="button" class="btn btn-danger btn-sm">Delete</a>
 								<button type="button" class="btn btn-primary btn-sm">Update</button>
 
 							</td>

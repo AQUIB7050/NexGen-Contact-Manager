@@ -9,7 +9,7 @@
 
 
 	<section>
-		<div class="card">
+		<div class="card" th:if="${contact}">
 
 			<div class="card-body">
 
@@ -35,30 +35,36 @@
 							<td scope="col">Work</td>
 							<td scope="col" th:text="${contact.work}"></td>
 						</tr>
-						
+
 						<tr>
 							<td scope="col">Email</td>
 							<td scope="col" th:text="${contact.email}"></td>
 						</tr>
-						
+
 						<tr>
 							<td scope="col">Phone</td>
 							<td scope="col" th:text="${contact.phone}"></td>
 						</tr>
 					</tbody>
 				</table>
-				
+
 				<div class="text-center mb-4 mt-4">
-				<span  th:utext="${contact.description}"></span>
-				
+					<span th:utext="${contact.description}"></span>
+
 				</div>
 
-				<button type="button" class="btn btn-danger btn-sm btn-block">Delete</button>
+				<a th:onClick="|deleteContact(${contact.cId}, -1)|" href="#" type="button" class="btn btn-danger btn-sm btn-block">Delete</a>
 				<button type="button" class="btn btn-primary btn-sm btn-block">Update</button>
 
 			</div>
 
 		</div>
+
+		<div>
+
+			<h1 th:unless="${contact}" class="text-center bg-danger text-white mr-3">You don't have permission to see this contact</h1>
+		</div>
+
 	</section>
 
 </body>

@@ -106,40 +106,81 @@ public class UserContoller {
 	@GetMapping("/show-contacts/{page}")
 	public String showContact(Model model, Principal principal, @PathVariable("page") Integer page) {
 		model.addAttribute("title", "contacts - Smart Contact Manager");
-		
+
 		try {
 			String email = principal.getName();
 			User user = this.userRepository.getUserByUserName(email);
-			
+
 			PageRequest pageable = PageRequest.of(page, 3);
-			
+
 			Page<Contact> contacts = this.contactRepository.findContactByUser(user.getId(), pageable);
-			
-			model.addAttribute("contact",contacts);
-			model.addAttribute("currentPage",page);
+
+			model.addAttribute("contact", contacts);
+			model.addAttribute("currentPage", page);
 			model.addAttribute("totalPages", contacts.getTotalPages());
-			
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
-		
-		
+
 		return "normal/show_contacts";
 	}
-	
+
 	@GetMapping("/{contactId}/contact")
-	public String getContactDetails(@PathVariable("contactId") int contactId, Model model) {
-		
+	public String getContactDetails(@PathVariable("contactId") int contactId, Model model, Principal principal) {
+
 		Optional<Contact> optionalContact = this.contactRepository.findById(contactId);
 		Contact contact = optionalContact.get();
-		
-		model.addAttribute("title",contact.getName() + " - Smart Contact Manager");
-		model.addAttribute("contact", contact);
-		
+
+		// FOR SECURITY PURPOSE, SO ONE CANNOT CEHCK ANOTHERS CONTACT
+		String email = principal.getName();
+		User user = this.userRepository.getUserByUserName(email);
+
+		if (user.getId() == contact.getUser().getId()) {
+
+			model.addAttribute("contact", contact);
+			model.addAttribute("title", contact.getName() + " - Smart Contact Manager");
+		}
+
 		return "normal/contact_detail";
-		
+
+	}
+
+	@GetMapping("/delete/{contactId}/{currentPage}")
+	public String deleteContact(@PathVariable("contactId") int contactId, @PathVariable("currentPage") int currentPage,
+			Principal principal, Model model) {
+		Optional<Contact> optionalContact = this.contactRepository.findById(contactId);
+		Contact contact = optionalContact.get();
+		User user = this.userRepository.getUserByUserName(principal.getName());
+
+		// FOR SECURITY, SO ANTOHER PERSON CANNOT DELETE OTHER CONTACT
+		if (user.getId() == contact.getUser().getId()) {
+			// UNLINK USER SO IT CAN BE DELETED
+			contact.setUser(null);
+			// REMOVE IMAGE (img/contact.getImage())
+			if(!contact.getImage().equals("default_contact.png")) {
+				try {
+					File savedFile = new ClassPathResource("static/img").getFile();
+					Path path = Paths.get(savedFile.getAbsolutePath() + File.separator + contact.getImage());
+					Files.delete(path);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					System.out.println("File Not Found");
+				}
+			}
+			
+
+			this.contactRepository.delete(contact);
+			model.addAttribute("message", new Message("Contact Deleted Successfully", "success"));
+		}
+
+		// FOR HANDLING DELETE BUTTON OF CONTACT_DETAIL PAGE
+		if (currentPage == -1) {
+			return ("redirect:/user/show-contacts/0");
+		}
+
+		return ("redirect:/user/show-contacts/" + currentPage);
+
 	}
 
 }
