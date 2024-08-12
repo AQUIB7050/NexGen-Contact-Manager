@@ -53,8 +53,11 @@
 
 				</div>
 
-				<a th:onClick="|deleteContact(${contact.cId}, -1)|" href="#" type="button" class="btn btn-danger btn-sm btn-block">Delete</a>
-				<button type="button" class="btn btn-primary btn-sm btn-block">Update</button>
+				<a th:onClick="|deleteContact(${contact.cId}, -1)|" href="#"
+					type="button" class="btn btn-danger btn-sm btn-block">Delete</a>
+				<form th:action="@{'/user/update-contact/' + ${contact.cId}}" method="post" class="mt-1">
+					<button type="submit" class="btn btn-primary btn-sm btn-block">Update</button>
+				</form>
 
 			</div>
 
@@ -62,7 +65,9 @@
 
 		<div>
 
-			<h1 th:unless="${contact}" class="text-center bg-danger text-white mr-3">You don't have permission to see this contact</h1>
+			<h1 th:unless="${contact}"
+				class="text-center bg-danger text-white mr-3">You don't have
+				permission to see this contact</h1>
 		</div>
 
 	</section>

@@ -29,26 +29,21 @@
 					<tbody>
 						<tr th:each="e : ${contact}">
 							<th th:text=" 'CN2024' + ${e.cId}" scope="row"></th>
-							<td>
-							
-							<img class="profile_image mr-1" th:src="@{'/img/' + ${e.image}}">
-							
-							<span th:text="${e.name}"></span>
-							
-							</td>
-							<td>
-							<a th:href="@{'/user/'+ ${e.cId} +'/contact'}">
-							 <span th:text="${e.email}"> 
-							 </span>
-							 </a>
-							 </td>
+							<td><img class="profile_image mr-1"
+								th:src="@{'/img/' + ${e.image}}"> <span
+								th:text="${e.name}"></span></td>
+							<td><a th:href="@{'/user/'+ ${e.cId} +'/contact'}"> <span
+									th:text="${e.email}"> </span>
+							</a></td>
 							<td th:text="${e.phone}"></td>
-							<td>
+							<td><a
+								th:onClick="|deleteContact(${e.cId}, ${currentPage})|" href="#"
+								type="button" class="btn btn-danger btn-sm">Delete</a>
 
-								<a th:onClick="|deleteContact(${e.cId}, ${currentPage})|" href="#" type="button" class="btn btn-danger btn-sm">Delete</a>
-								<button type="button" class="btn btn-primary btn-sm">Update</button>
-
-							</td>
+								<form th:action="@{'/user/update-contact/' + ${e.cId}}"
+									method="post" class="mt-2">
+									<button type="submit" class="btn btn-primary btn-sm">Update</button>
+								</form></td>
 						</tr>
 					</tbody>
 				</table>

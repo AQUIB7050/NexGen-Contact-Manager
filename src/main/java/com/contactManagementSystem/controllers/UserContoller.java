@@ -158,7 +158,7 @@ public class UserContoller {
 			// UNLINK USER SO IT CAN BE DELETED
 			contact.setUser(null);
 			// REMOVE IMAGE (img/contact.getImage())
-			if(!contact.getImage().equals("default_contact.png")) {
+			if (!contact.getImage().equals("default_contact.png")) {
 				try {
 					File savedFile = new ClassPathResource("static/img").getFile();
 					Path path = Paths.get(savedFile.getAbsolutePath() + File.separator + contact.getImage());
@@ -168,7 +168,6 @@ public class UserContoller {
 					System.out.println("File Not Found");
 				}
 			}
-			
 
 			this.contactRepository.delete(contact);
 			model.addAttribute("message", new Message("Contact Deleted Successfully", "success"));
@@ -181,6 +180,58 @@ public class UserContoller {
 
 		return ("redirect:/user/show-contacts/" + currentPage);
 
+	}
+
+	@PostMapping("/update-contact/{contactId}")
+	public String processUpdate(@PathVariable("contactId") int contactId, Model model) {
+		Contact contact = this.contactRepository.findById(contactId).get();
+		model.addAttribute("contact", contact);
+
+		return "normal/update-contact";
+
+	}
+
+	@PostMapping("/process-update")
+	public String processUpdate(@ModelAttribute Contact contact, @RequestParam("profileImage") MultipartFile file, Model model, Principal principal) {
+		
+		Contact oldContact = this.contactRepository.findById(contact.getcId()).get();
+
+		try {
+
+			if (!file.isEmpty()) {
+
+				// Delete image
+				if(!(oldContact.getImage().equals("default_contact.png")) && !(oldContact.getImage()==null)) {
+					File savedFile = new ClassPathResource("/static/img").getFile();
+					Path path = Paths.get(savedFile.getAbsolutePath() + File.separator + oldContact.getImage());
+					Files.delete(path);
+					
+				}
+				
+
+				// Save Image
+				contact.setImage(file.getOriginalFilename());
+				
+				File saveFile = new ClassPathResource("/static/img").getFile();
+				Path newImagePath = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+				Files.copy(file.getInputStream(), newImagePath, StandardCopyOption.REPLACE_EXISTING);
+				
+			} else {
+				
+				contact.setImage(oldContact.getImage());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		User user = this.userRepository.getUserByUserName(principal.getName());
+		contact.setUser(user);
+		
+		this.contactRepository.save(contact);
+
+		return ("redirect:/user/" + contact.getcId() + "/contact");
 	}
 
 }
