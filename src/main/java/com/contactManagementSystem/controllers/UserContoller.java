@@ -233,5 +233,11 @@ public class UserContoller {
 
 		return ("redirect:/user/" + contact.getcId() + "/contact");
 	}
+	
+	@GetMapping("/profile")
+	public String profile(Model model, Principal principal) {
+		model.addAttribute("title", "profile - Smart Contact Manager");
+		return "normal/user_profile";
+	}
 
 }
