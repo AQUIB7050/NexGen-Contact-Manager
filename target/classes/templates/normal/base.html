@@ -67,11 +67,12 @@
 			th:href="@{/user/show-contacts/0}" class="item"><i
 			class="fa-solid fa-address-book"></i> View Contacts</a> <a
 			th:href="@{/user/add-contact}" class="item"><i
-			class="fa-solid fa-file-pen"></i> Add Contact</a> <a th:href="@{/user/profile}"
-			class="item"><i class="fa-solid fa-user"></i> Your Profile</a> <a
-			href="#" class="item"><i class="fa-solid fa-gear"></i> Settings</a> <a
-			th:href="@{/logout}" class="item"><i
-			class="fa-solid fa-right-from-bracket"></i> Logout</a>
+			class="fa-solid fa-file-pen"></i> Add Contact</a> <a
+			th:href="@{/user/profile}" class="item"><i
+			class="fa-solid fa-user"></i> Your Profile</a> <a href="#" class="item"><i
+			class="fa-solid fa-gear"></i> Settings</a> <a th:href="@{/logout}"
+			class="item"><i class="fa-solid fa-right-from-bracket"></i>
+			Logout</a>
 
 		<div class="divider"></div>
 
@@ -126,10 +127,10 @@
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<script src="scripts.js"></script>
 
 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
 	<script>
 	function deleteContact(cid, currentPage){
 		Swal.fire({
@@ -156,6 +157,7 @@
 		
 	}
 	</script>
+	
 </body>
 
 <script th:src="@{/js/script.js}"></script>
